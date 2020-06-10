@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict your genre</title>
+    <style>
+        #container{
+            width: 100%;
+            position: relative;
+            min-height: 100vh;
+            
+        }
+        #content_wrapper{
+            padding-bottom: 2.5rem;
+        }
+        #footer {
+            position: absolute;
+            text-align: center;
+            bottom: 0;
+            width: 100%;
+            height: 2.5rem;            /* Footer height */
+        }
+        #text{
+            text-align: center;
+        }
+        #converter_wrapper{
+            width: 100%;
+            margin: auto;
+            text-align: center;
+        }
+        form #input{
+            display: inline-block;
+            width: 50%;
+            padding: 14px 20px;
+            margin: 8px 4%;
+        }
+        form #submit{
+            display: inline-block;
+            width: 20%;
+            font-size: 1.5em;
+            color: cornsilk;
+            background-color:rgb(3, 58, 77);
+            border-radius: 10%;
+            border-color:rgb(27, 2, 6);
+            border-style: solid;
+            
+        }
+        form #submit:hover{
+            background-color:rgb(69, 183, 221);
+            
+        }
+        form #submit:active{
+            background-color:rgb(13, 170, 223);
+            
+        }
+        form #submit:focus{
+            background-color:rgb(13, 170, 223);
+            outline: none;
+            
+        }
+        .genre{
+            margin-top: 0;
+            float: left;
+            margin-left: 4%;
+            min-width: 50%;
+        }
+        .proportion{
+            background-color:rgb(13, 170, 223);
+            float: left;
+            margin-left: 4%;
+        }
+        
+        .number{
+            margin-top: 0;
+            height: 20px;
+            float: left;
+            margin-left: 4%;
+        }
+        .clr{
+            clear: both;
+        }
+    </style>
+    
+</head>
+<body>
+    <div id="container">
+        <div id="content_wrapper" >
+            <div id="converter_wrapper">
+                <h2 id="title">
+                    {{name}}
+
+                </h2>
+
+                {% for r in result %}
+                    <h3 class="genre" >{{r[0]}}</h3>
+                        <canvas class="proportion" id ="{{r[0]}}" width="800" height="20"></canvas>
+                        <script>
+                                var c = document.getElementById("{{r[0]}}");
+                                var ctx = c.getContext("2d");
+                                ctx.fillStyle = "#009900";
+                                ctx.fillRect(0, 0, {{r[1]*800}}, 20);
+
+                        </script>
+                        <h3 class="number">{{r[1]*100}}%</h3>
+                    <div class="clr"></div>
+                {% endfor %}
+
+              
+                
+            </div>
+            
+
+            <div id="text">
+                <h1>Music Genre Classifier</h1>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.                </p>
+                <p>
+                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
+                </p>
+                <p>
+                    At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat
+                </p>
+                <p>
+                Enjoy! We hope you like our service.
+                </p>
+            </div>
+        </div>
+   
+       <div id="footer">
+        &copy; Copyright Bahaoui-Dadda
+       </div>
+    </div>
+</body>
+
+</html>
