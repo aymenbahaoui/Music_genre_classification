@@ -24,29 +24,39 @@ class _Music_Classification_Service:
 
     def predict(self, file_path):
         # extract MFCC
-        MFCCs = self.preprocess(file_path)
-        # we need a 4-dim array to feed to the model for prediction: (# samples, # time steps, # coefficients, 1)
-        MFCCs = MFCCs[np.newaxis, ..., np.newaxis]
+        result =[]
+        row = self.preprocess(file_path)
+        for i in range(len(row)):
+            MFCCs = row[i]
+            # we need a 4-dim array to feed to the model for prediction: (# samples, # time steps, # coefficients, 1)
+            MFCCs = MFCCs[np.newaxis, ..., np.newaxis]
 
-        # get the predicted label
-        predictions = self.model.predict(MFCCs)
-        #predicted_index = np.argmax(predictions)
-        #predicted_genre = self._mapping[predicted_index]
-        #return predicted_genre
-        return predictions[0]
+            # get the predicted label
+            predictions = self.model.predict(MFCCs)
+            result.append(predictions[0])
+            #predicted_index = np.argmax(predictions)
+            #predicted_genre = self._mapping[predicted_index]
+            #return predicted_genre
+        arr = np.array(result)
+        x = arr.mean(axis=0)
+        return x
 
     def preprocess(self, file_path, num_mfcc=13, n_fft=2048, hop_length=512):
         # load audio file
         signal, sample_rate = librosa.load(file_path)
-
-        if len(signal) >= SAMPLES_TO_CONSIDER:
+        row = []
+        i = 1
+        while len(signal) >= SAMPLES_TO_CONSIDER * i:
             # ensure consistency of the length of the signal
-            signal = signal[SAMPLES_TO_CONSIDER*10:SAMPLES_TO_CONSIDER*11]
-
+            signal_tmp = signal[SAMPLES_TO_CONSIDER*(i-1):SAMPLES_TO_CONSIDER*i]
+            i += 1
             # extract MFCCs
-            MFCCs = librosa.feature.mfcc(signal, sample_rate, n_mfcc=num_mfcc, n_fft=n_fft,
+            MFCCs = librosa.feature.mfcc(signal_tmp, sample_rate, n_mfcc=num_mfcc, n_fft=n_fft,
                                          hop_length=hop_length)
-        return MFCCs.T
+
+            row.append(MFCCs.T)
+
+        return row
 
 
 def Music_Classification_Service():
@@ -66,8 +76,8 @@ if __name__ == "__main__":
     assert mcs is mcs1
 
     # make a prediction
-    vidName = youtube_to_wav("https://www.youtube.com/watch?v=fh-o8Bxc3Ys")
+    #vidName = youtube_to_wav("https://www.youtube.com/watch?v=fh-o8Bxc3Ys")
+    vidName="blues.00011.wav"
     genre = mcs.predict(vidName)
     for i in range(len(genre)):
         print(str(mcs._mapping[i]) + "--->" + str(genre[i]))
-    os.remove(vidName)
